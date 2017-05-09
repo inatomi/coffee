@@ -13,8 +13,8 @@ app.debug = True
 
 #Authorizer Cognito User Pool
 authorizer = CognitoUserPoolAuthorizer(
-    'MyPool', header='Authorization',
-    provider_arns=['arn:aws:cognito-idp:ap-northeast-1:X'])
+    'coffee', header='Authorization',
+    provider_arns=['arn:aws:cognito-idp:ap-northeast-1:772453122176:userpool/ap-northeast-1_qnQ0LnB7c'])
 
 #Coffee table
 coffee = boto3.resource('dynamodb').Table('coffee')
@@ -30,7 +30,7 @@ class DecimalEncoder(json.JSONEncoder):
                 return int(o)
             return super(DecimalEncoder, self).default(o)
 
-
+#Coffee api
 @app.route('/coffee/{key}', methods=['GET', 'PUT'], authorizer=authorizer)
 def order(key):
     request = app.current_request
