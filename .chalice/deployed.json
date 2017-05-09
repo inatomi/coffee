@@ -2,7 +2,7 @@
   "dev": {
     "api_handler_name": "coffee-dev",
     "api_handler_arn": "arn:aws:lambda:ap-northeast-1:772453122176:function:coffee-dev",
-    "rest_api_id": "4v7rtg34ob",
+    "rest_api_id": "hxmqizi2bh",
     "region": "ap-northeast-1",
     "api_gateway_stage": "dev",
     "backend": "api",

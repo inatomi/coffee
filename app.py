@@ -2,14 +2,23 @@ import boto3
 import json
 import decimal
 from chalice import Chalice
+from chalice import CognitoUserPoolAuthorizer
 from botocore.exceptions import ClientError
 from boto3.dynamodb.conditions import Key, Attr
 from chalice import NotFoundError
 
+#App name
 app = Chalice(app_name='coffee')
 app.debug = True
 
+#Authorizer Cognito User Pool
+authorizer = CognitoUserPoolAuthorizer(
+    'MyPool', header='Authorization',
+    provider_arns=['arn:aws:cognito-idp:ap-northeast-1:X'])
+
+#Coffee table
 coffee = boto3.resource('dynamodb').Table('coffee')
+
 
 #Decimal Decoder
 class DecimalEncoder(json.JSONEncoder):
@@ -22,7 +31,7 @@ class DecimalEncoder(json.JSONEncoder):
             return super(DecimalEncoder, self).default(o)
 
 
-@app.route('/coffee/{key}', methods=['GET', 'PUT'])
+@app.route('/coffee/{key}', methods=['GET', 'PUT'], authorizer=authorizer)
 def order(key):
     request = app.current_request
     if request.method == 'PUT':
